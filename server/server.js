@@ -1,34 +1,43 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const cors = require("cors");
 
-// Conexion Mongodb
-const mongoose = require('mongoose')
-mongoose
-    .connect('mongodb+srv://jhalvarez4083:O9Grw3LeqGLezHjI@cluster0.xfxkubx.mongodb.net/misiontic')
-    .then(() => console.log('CONECTADO A BBDD'))
+const app = express();
 
-// Model
-const Productos = require('./models/productos.models')
+var corsOptions = {
+  origin: "http://localhost:8081"
+};
 
-// CORS
-const cors = require('cors')
-app.use(cors())
+app.use(cors(corsOptions));
 
-// Routing
-app.get('/api/productos', (req, res) => {
+// parse requests of content-type - application/json
+app.use(express.json());
 
-  Productos
-      .find()
-      .then(allProductos => res.json(allProductos))
-      
-})
-app.get('/api/productos/:productos_id', (req, res) => {
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
 
-  const { productos_id } = req.params
+const db = require("./models/");
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit();
+  });
 
-  Productos
-      .findById(productos_id)
-      .then(productos => res.json(productos))
-    })
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to GroceryDevs application." });
+});
 
-app.listen(5005, () => console.log('SERVIDOR LEVANTADO'))
+require("./routes/productos.routes")(app);
+
+// set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
