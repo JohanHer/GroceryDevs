@@ -7,7 +7,7 @@ module.exports = mongoose => {
         descripcion: String,
         caracteristicas: String,
         urlImagen: String,
-        price: String,
+        precio: String,
         stock: String
              },
       { timestamps: true }

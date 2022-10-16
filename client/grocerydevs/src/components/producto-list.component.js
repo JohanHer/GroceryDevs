@@ -1,42 +1,42 @@
 import React, { Component } from "react";
-import InventoryDataService from "../services/inventory.service";
+import ProductosDataService from "../services/productos.service";
 import { Link } from "react-router-dom";
 
-export default class InvetoryList extends Component {
+export default class ProductoList extends Component {
   constructor(props) {
     super(props);
-    this.onChangeSearchName = this.onChangeSearchName.bind(this);
-    this.retrieveInventories = this.retrieveInventories.bind(this);
+    this.onChangeSearchNombre = this.onChangeSearchNombre.bind(this);
+    this.retrieveProductos = this.retrieveProductos.bind(this);
     this.refreshList = this.refreshList.bind(this);
-    this.setActiveInventory = this.setActiveInventory.bind(this);
-    this.removeAllInventories = this.removeAllInventories.bind(this);
-    this.searchName = this.searchName.bind(this);
+    this.setActiveProducto = this.setActiveProducto.bind(this);
+    this.removeAllProductos = this.removeAllProductos.bind(this);
+    this.searchNombre = this.searchNombre.bind(this);
 
     this.state = {
-      Inventories: [],
-      currentInventory: null,
+      productos: [],
+      currentProducto: null,
       currentIndex: -1,
-      searchName: ""
+      searchNombre: ""
     };
   }
 
   componentDidMount() {
-    this.retrieveInventories();
+    this.retrieveProductos();
   }
 
-  onChangeSearchName(e) {
-    const searchName = e.target.value;
+  onChangeSearchNombre(e) {
+    const searchNombre = e.target.value;
 
     this.setState({
-      searchName: searchName
+      searchNombre: searchNombre
     });
   }
 
-  retrieveInventories() {
-    InventoryDataService.getAll()
+  retrieveProductos() {
+    ProductosDataService.getAll()
       .then(response => {
         this.setState({
-          inventories: response.data
+          productos: response.data
         });
         console.log(response.data);
       })
@@ -46,22 +46,22 @@ export default class InvetoryList extends Component {
   }
 
   refreshList() {
-    this.retrieveInventory();
+    this.retrieveProductos();
     this.setState({
-      currentInventory: null,
+      currentProducto: null,
       currentIndex: -1
     });
   }
 
-  setActiveInventory(inventory, index) {
+  setActiveProducto(producto, index) {
     this.setState({
-      currentInventory: inventory,
+      currentProducto: producto,
       currentIndex: index
     });
   }
 
-  removeAllInventories() {
-    InventoryDataService.deleteAll()
+  removeAllProductos() {
+    ProductosDataService.deleteAll()
       .then(response => {
         console.log(response.data);
         this.refreshList();
@@ -71,16 +71,16 @@ export default class InvetoryList extends Component {
       });
   }
 
-  searchName() {
+  searchNombre() {
     this.setState({
-      currentInventory: null,
+      currentProducto: null,
       currentIndex: -1
     });
 
-    InventoryDataService.findByName(this.state.searchName)
+    ProductosDataService.findByNombre(this.state.searchNombre)
       .then(response => {
         this.setState({
-          inventories: response.data
+          productos: response.data
         });
         console.log(response.data);
       })
@@ -90,7 +90,7 @@ export default class InvetoryList extends Component {
   }
 
   render() {
-    const { searchName, inventories, currentInventory, currentIndex } = this.state;
+    const { searchNombre, productos, currentProducto, currentIndex } = this.state;
 
     return (
       <div className="list row">
@@ -100,14 +100,14 @@ export default class InvetoryList extends Component {
               type="text"
               className="form-control"
               placeholder="Search by name"
-              value={searchName}
-              onChange={this.onChangeSearchName}
+              value={searchNombre}
+              onChange={this.onChangeSearchNombre}
             />
             <div className="input-group-append">
               <button
                 className="btn btn-outline-secondary"
                 type="button"
-                onClick={this.searchName}
+                onClick={this.searchNombre}
               >
                 Search
               </button>
@@ -115,20 +115,20 @@ export default class InvetoryList extends Component {
           </div>
         </div>
         <div className="col-md-6">
-          <h4>Inventory List</h4>
+          <h4>Product List</h4>
 
           <ul className="list-group">
-            {inventories &&
-              inventories.map((inventory, index) => (
+            {productos &&
+              productos.map((producto, index) => (
                 <li
                   className={
                     "list-group-item " +
                     (index === currentIndex ? "active" : "")
                   }
-                  onClick={() => this.setActiveInventory(inventory, index)}
+                  onClick={() => this.setActiveProducto(producto, index)}
                   key={index}
                 >
-                  {inventory.name}
+                  {producto.nombre}
                   
                 </li>
               ))}
@@ -136,49 +136,56 @@ export default class InvetoryList extends Component {
 
           <button
             className="m-3 btn btn-sm btn-danger"
-            onClick={this.removeAllInventories}
+            onClick={this.removeAllProductos}
           >
             Remove All
           </button>
         </div>
         <div className="col-md-6">
-          {currentInventory ? (
+          {currentProducto ? (
             <div>
-              <h4>Inventory details</h4>
+              <h4>Products details</h4>
               <div>
                 <label>
-                  <strong>Name:</strong>
+                  <strong>Nu Item:</strong>
                 </label>{" "}
-                {currentInventory.name}
+                {currentProducto.nu_item}
               </div>
               <div>
                 <label>
-                  <strong>Description:</strong>
+                  <strong>Nombre:</strong>
                 </label>{" "}
-                {currentInventory.description}
+                {currentProducto.nombre}
               </div>
               <div>
                 <label>
-                  <strong>Quantity:</strong>
+                  <strong>Descripción:</strong>
                 </label>{" "}
-                {currentInventory.quantity}
-              </div>
-
-              <div>
-                <label>
-                  <strong>Unitary_Price:</strong>
-                </label>{" "}
-                {currentInventory.unitary_price}
+                {currentProducto.descripcion}
               </div>
               <div>
                 <label>
-                  <strong>Status:</strong>
+                  <strong>UrlImagen:</strong>
                 </label>{" "}
-                {currentInventory.stock ? "Published" : "Pending"}
+                {currentProducto.urlImagen}
               </div>
 
+              <div>
+                <label>
+                  <strong>Precio:</strong>
+                </label>{" "}
+                {currentProducto.precio}
+              </div>
+              <div>
+                <label>
+                  <strong>Stock:</strong>
+                </label>{" "}
+                {currentProducto.stock}
+              </div>
+
+              
               <Link
-                to={"/inventory/" + currentInventory.id}
+                to={"/productos/" + currentProducto.id}
                 className="badge badge-warning"
               >
                 Edit
@@ -187,7 +194,7 @@ export default class InvetoryList extends Component {
           ) : (
             <div>
               <br />
-              <p>Please click on a Inventory...</p>
+              <p>Please click on a product...</p>
             </div>
           )}
         </div>
