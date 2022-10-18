@@ -1,4 +1,3 @@
-const { ventas } = require("../models/");
 const db = require("../models/");
 const Venta = db.ventas;
 

@@ -1,5 +1,3 @@
-
-var Schema = mongoose.Schema;
 module.exports = mongoose => {
     var schema = mongoose.Schema(
       {
@@ -11,7 +9,7 @@ module.exports = mongoose => {
         valor: Number,
         confirmado: Boolean,
         detalleCompra: [
-          {idProducto: { type: Schema.ObjectId, ref: "producto"}, 
+          {idProducto: String, 
             cantidad:Number}]
              },
       { timestamps: true }

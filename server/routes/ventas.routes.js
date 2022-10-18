@@ -8,7 +8,7 @@ module.exports = app => {
 
   // Retrieve all ventas
   router.get("/", ventas.findAll);
-  router.get("/ventas");
+
   // // Retrieve all published Tutorials
   // router.get("/published", tutorials.findAllPublished);
 
