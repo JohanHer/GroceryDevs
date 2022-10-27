@@ -5,7 +5,9 @@ import "./App.css";
 import Home from "./components/home.component";
 import AddProducto from "./components/add-producto.component";
 import Producto from "./components/producto.component";
+import Ventas from "./components/venta.component";
 import ProductoList from "./components/producto-list.component";
+import VentaList from "./components/ventalist.component";
 
 
 
@@ -28,6 +30,11 @@ class App extends Component {
                 Añadir productos
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={"/ventas"} className="nav-link">
+                Lista de ventas
+              </Link>
+            </li>
           </div>
         </nav>
 
@@ -36,7 +43,9 @@ class App extends Component {
             <Route path="/home" element={<Home/>} />
             <Route path="/productos" element={<ProductoList/>} />
             <Route path="/add" element={<AddProducto/>} />
+            <Route path="/ventas" element={<VentaList/>} />
             <Route path="/productos/:id" element={<Producto/>} />
+            <Route path="/ventas/:id" element={<Ventas/>} />
           </Routes>
         </div>
       </div>

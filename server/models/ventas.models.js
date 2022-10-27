@@ -7,7 +7,10 @@ module.exports = mongoose => {
         id: {type: String, require:true},
         nu_item: {type: String, require:true},
         fecha: {type: String, require:true},
-        idCliente: {type: String, require:true},
+        idCliente: {
+          type: mongoose.Schema.Types.ObjectId, autopopulate: true,
+          ref: "usuario",
+        },
         idVenta: {type: String, require:true},
         valor: {type: Number, require:true},
         confirmado: {type: Boolean, require:true},
@@ -20,7 +23,8 @@ module.exports = mongoose => {
              ,
       { timestamps: true }
     );
-   
+    schema.plugin(require('mongoose-autopopulate'));
+
     schema.plugin(require('mongoose-autopopulate'));
 
     schema.method("toJSON", function() {

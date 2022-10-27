@@ -99,7 +99,7 @@ export default class ProductoList extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Buscar por nombre"
+              placeholder="Search by name"
               value={searchNombre}
               onChange={this.onChangeSearchNombre}
             />
@@ -115,7 +115,7 @@ export default class ProductoList extends Component {
           </div>
         </div>
         <div className="col-md-6">
-          <h4>Productos Lista</h4>
+          <h4>Product List</h4>
 
           <ul className="list-group">
             {productos &&
@@ -165,9 +165,9 @@ export default class ProductoList extends Component {
               </div>
               <div>
                 <label>
-                  <strong>Url Imagen:</strong>
+                  <strong>UrlImagen:</strong>
                 </label>{" "}
-                <img src={`${process.env.PUBLIC_URL}/img/${currentProducto.urlImagen}`} alt={currentProducto.urlImagen} width="80px" className="img-fluid"/>
+                {currentProducto.urlImagen}
               </div>
 
               <div>

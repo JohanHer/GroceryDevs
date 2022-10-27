@@ -119,9 +119,10 @@ export default class AddProducto extends Component {
           </div>
         ) : (
           <div>
+            <h3>Añadir productos</h3>
             <div className="form-group">
-              <label htmlFor="title">Nombre</label>
-              <input
+              <label for="staticEmail" class="col-sm-2 col-form-label" htmlFor="nombre">Nombre</label>
+              <input readonly class="form-control-plaintext"
                 type="text"
                 className="form-control"
                 id="nombre"
@@ -133,7 +134,7 @@ export default class AddProducto extends Component {
             </div>
             <div className="form-group">
               <label htmlFor="nu_item">Nu_Item</label>
-              <input
+              <input class="col-sm-2 col-form-label"
                 type="text"
                 className="form-control"
                 id="nu_item"
