@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const bodyParser = require('body-parser');
 const app = express();
 
 var corsOptions = {
@@ -15,9 +15,19 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// middlewares
+app.use((req, res, next) => {
+  console.log(`${req.url} - ${req.method}`);
+  next();
+});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+
 const db = require("./models/");
 db.mongoose
   .connect(db.url, {
+    keepAlive: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -35,8 +45,17 @@ app.get("/", (req, res) => {
 });
 
 require("./routes/productos.routes")(app);
+require("./routes/ventas.routes")(app);
 
 
+// app.get("/vent", function (req, res) {
+//   Venta.findAll({}, function (err, ventas) {
+//     Producto.populate(ventas, { path: "producto" }, function (err, ventas) {
+//       res.status(200).send(ventas);
+//       console.log(ventas)
+//     });
+//   });
+// });
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

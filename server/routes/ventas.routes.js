@@ -5,10 +5,10 @@ module.exports = app => {
 
   // Create a new ventas
   router.post("/", ventas.create);
-
+  router.post("/detalle", ventas.updateD);
   // Retrieve all ventas
   router.get("/", ventas.findAll);
-
+  
   // // Retrieve all published Tutorials
   // router.get("/published", tutorials.findAllPublished);
 
@@ -25,4 +25,5 @@ module.exports = app => {
   router.delete("/", ventas.deleteAll);
 
   app.use("/api/ventas", router);
+  app.use("/api/ventas/detalle", router);
 };

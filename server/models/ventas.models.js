@@ -1,26 +1,36 @@
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
 module.exports = mongoose => {
     var schema = mongoose.Schema(
       {
-        id: String,
-        nu_item: String,
-        fecha: String,
-        idCliente: String,
-        idVenta: String,
-        valor: Number,
-        confirmado: Boolean,
-        detalleCompra: [
-          {idProducto: String, 
-            cantidad:Number}]
-             },
+        id: {type: String, require:true},
+        nu_item: {type: String, require:true},
+        fecha: {type: String, require:true},
+        idCliente: {type: String, require:true},
+        idVenta: {type: String, require:true},
+        valor: {type: Number, require:true},
+        confirmado: {type: Boolean, require:true},
+        detalleCompra:  
+          { type : Array , default : [] }
+      }
+      
+      
+      
+             ,
       { timestamps: true }
     );
-  
+   
+    schema.plugin(require('mongoose-autopopulate'));
+
     schema.method("toJSON", function() {
       const { __v, _id, ...object } = this.toObject();
       object.id = _id;
       return object;
     });
   
+     
+    
     const Venta = mongoose.model("venta", schema);
     return Venta;
   };

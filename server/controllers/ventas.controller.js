@@ -1,5 +1,7 @@
 const db = require("../models/");
+var router = require("express").Router();
 const Venta = db.ventas;
+Tent = require("../models/ventas.models");
 
 // Create and Save a new ventas
 exports.create = (req, res) => {
@@ -9,17 +11,16 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Producto
+  // Create a venta
   const venta = new Venta({
     nu_item: req.body.nu_item,
     fecha: req.body.fecha,
     idCliente: req.body.idCliente,
     idVenta: req.body.idVenta,
     valor: req.body.valor,
-    confirmado: req.body.confirmado,
-    detalleCompra: req.body.detalleCompra
-    
-  });
+    confirmado: req.body.confirmado   
+         
+    });
 
   // Save venta in the database
   venta
@@ -34,6 +35,18 @@ exports.create = (req, res) => {
       });
     });
 };
+
+// Create a new venta-producto
+// NEW_COMMENT = {
+//   _id: req.body._id,
+//   cantidad: 10,
+//   updated: ISODate()
+// }
+
+// db.posts.updateOne( 
+//   { _id : ObjectId("6358a37970def17bbc2f33ed") },
+//   { $push: { detalleCompra: NEW_COMMENT } }
+// )
 
 // Retrieve all ventas from the database.
 exports.findAll = (req, res) => {
@@ -133,13 +146,7 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-app.get("/ventas", function (req, res) {
-  Venta.find({}, function (err, ventas) {
-    Productos.populate(ventas, { path: "productos" }, function (err, ventas) {
-      res.status(200).send(ventas);
-    });
-  });
-});
+
 
 //Find all num_item Productos
 // exports.findAllNu_item = (req, res) => {
@@ -154,3 +161,35 @@ app.get("/ventas", function (req, res) {
 //       });
 //     });
 // };
+exports.updateD = (req, res) => {
+    if (req.body._id) {
+      Venta.updateMany({ _id: req.body._id }, {
+              $push: {
+                  'detalleCompra': {
+                      idProducto: req.body.idProducto,
+                      cantidad: req.body.cantidad
+                  }
+              }
+          },
+         (error) => {
+              if (error) {
+                  return res.json({
+                      success: false,
+                      msj: 'No se pudo agregar el detalleCompra',
+                      err
+                  });
+              } else {
+                  return res.json({
+                      success: true,
+                      msj: 'Se agregó correctamente el detalleCompra'
+                  });
+              }
+          }
+      )
+  } else {
+      return res.json({
+          success: false,
+          msj: 'No se pudo agregar el detalle compra, por favor verifique que el _id sea correcto'
+      });
+  }
+};

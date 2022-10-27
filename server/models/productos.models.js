@@ -1,14 +1,14 @@
 module.exports = mongoose => {
     var schema = mongoose.Schema(
       {
-        id: String,
-        nu_item: String,
-        nombre: String,
-        descripcion: String,
-        caracteristicas: String,
-        urlImagen: String,
-        precio: String,
-        stock: String
+        id: {type: String, require:true},
+        nu_item: {type: String, require:true},
+        nombre: {type: String, require:true},
+        descripcion: {type: String, require:true},
+        caracteristicas: {type: String, require:true},
+        urlImagen: {type: String, require:true},
+        precio: {type: String, require:true},
+        stock: {type: String, require:true}
              },
       { timestamps: true }
     );

@@ -1,3 +1,3 @@
 module.exports = {
-  url: "mongodb+srv://jhalvarez4083:O9Grw3LeqGLezHjI@cluster0.xfxkubx.mongodb.net/misiontic"
+  url: "mongodb://127.0.0.1:27017/misiontic"
 };
